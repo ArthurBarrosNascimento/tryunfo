@@ -1,49 +1,71 @@
-import { React, Component }from 'react'
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { React, Component } from 'react';
+import './form.css';
 
 class Form extends Component {
-  render () {
+  render() {
     return (
       <form>
-      <label> Nome da Carta
-        <input type='text' data-testid="name-input"></input>
-      </label>
+        <div id="campo-nome">
+          <label htmlFor="nome">
+            Nome da Carta
+            <input type="text" id="nome" placeholder="Nome" data-testid="name-input" />
+          </label>
+        </div>
 
-      <label> Descrição 
-        <textarea cols='30' rows='5' data-testid="description-input"></textarea>
-      </label> 
+        <div id="campo-descricao">
+          <label htmlFor="descricao">
+            Descrição
+            <textarea cols="30" rows="5" data-testid="description-input" />
+          </label>
+        </div>
 
-      <label> Attr01
-          <input type='number' data-testid="attr1-input"></input>
-      </label>
+        <div id="div-attrs">
+          <label htmlFor="atr01">
+            Attr01
+            <input type="number" data-testid="attr1-input" className="input-attrs" />
+          </label>
 
-      <label> Attr02
-          <input type='number' data-testid="attr2-input"></input>
-      </label>
+          <label htmlFor="attr02">
+            Attr02
+            <input type="number" data-testid="attr2-input" className="input-attrs" />
 
-      <label> Attr03
-          <input type='number' data-testid="attr3-input"></input>
-      </label>
+          </label>
 
-      <label> Imagem
-          <input type='text'data-testid="image-input"></input>
-      </label>
+          <label htmlFor="attr03">
+            Attr03
+            <input type="number" data-testid="attr3-input" className="input-attrs" />
+          </label>
+        </div>
 
-      <label> Raridade
-          <select data-testid="rare-input">
-            <option value='normal'>normal</option>
-            <option value='raro'>raro</option>
-            <option value='muito raro'>muito raro</option>
-          </select>
-      </label>
+        <div id="div-img">
+          <label htmlFor="img">
+            Imagem
+            <input type="text" data-testid="image-input" />
+          </label>
+        </div>
 
-      <label>
-        <input type='checkbox' data-testid="trunfo-input"></input>
-        Super Trybe Trunfo
-      </label>
+        <div id="div-options-rare">
+          <label htmlFor="option">
+            Raridade
+            <select data-testid="rare-input">
+              <option value="normal">normal</option>
+              <option value="raro">raro</option>
+              <option value="muito raro">muito raro</option>
+            </select>
+          </label>
+        </div>
 
-      <button data-testid="save-button">Salvar</button>
+        <div id="div-check">
+          <label htmlFor="check">
+            <input type="checkbox" data-testid="trunfo-input" />
+            Super Trybe Trunfo
+          </label>
+        </div>
+
+        <button type="button" data-testid="save-button">Salvar</button>
       </form>
-    )
+    );
   }
 }
 

@@ -1,0 +1,25 @@
+#campo-nome {
+  width: 190px;
+  height: 40px;
+  background-color: gray;
+}
+#campo-nome input {
+  width: 180px;
+}
+
+#campo-descricao {
+  width: 190px;
+  height: 100px;
+  background-color: gray;
+}
+
+#div-attrs {
+  width: 190px;
+}
+
+.tamanho-input-attrs {
+  width: 137px;
+  margin-left: 5px;
+  display: block;
+  display: none;
+}
