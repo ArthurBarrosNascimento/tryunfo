@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class Card extends Component {
   render() {
-    const {
+    const { // props
       cardName,
       cardDescription,
       cardAttr1,
