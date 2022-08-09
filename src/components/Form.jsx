@@ -24,6 +24,7 @@ class Form extends React.Component {
           Name
           <input
             id="name-card"
+            name="name"
             type="text"
             placeholder="Name of Card"
             data-testid="name-input"
@@ -36,6 +37,7 @@ class Form extends React.Component {
           Description
           <textarea
             id="description-card"
+            name="description"
             type="text"
             data-testid="description-input"
             value={ cardDescription }
@@ -47,6 +49,7 @@ class Form extends React.Component {
           Attr01
           <input
             id="attr1-card"
+            name="attr1"
             type="number"
             data-testid="attr1-input"
             value={ cardAttr1 }
@@ -58,6 +61,7 @@ class Form extends React.Component {
           Attr02
           <input
             id="attr2-card"
+            name="attr2"
             type="number"
             data-testid="attr2-input"
             value={ cardAttr2 }
@@ -69,6 +73,7 @@ class Form extends React.Component {
           Attr03
           <input
             id="attr3-card"
+            name="attr3"
             type="number"
             data-testid="attr3-input"
             value={ cardAttr3 }
@@ -80,6 +85,7 @@ class Form extends React.Component {
           Image
           <input
             id="image-card"
+            name="image"
             type="text"
             data-testid="image-input"
             value={ cardImage }
@@ -91,6 +97,7 @@ class Form extends React.Component {
           Rarity
           <select
             id="select-rare-card"
+            name="rare"
             data-testid="rare-input"
             value={ cardRare }
             onChange={ onInputChange }
@@ -104,6 +111,7 @@ class Form extends React.Component {
         <label htmlFor="checkbox-card">
           <input
             id="checkbox-card"
+            name="trunfo"
             type="checkbox"
             data-testid="trunfo-input"
             checked={ cardTrunfo }
@@ -135,7 +143,7 @@ Form.propTypes = {
   cardRare: Proptypes.string.isRequired,
   cardTrunfo: Proptypes.bool.isRequired,
   // hasTrunfo: Proptypes.bool.isRequired,
-  isSaveButtonDisabled: Proptypes.bool.isRequired,
+  isSaveButtonDisabled: Proptypes.func.isRequired,
   onInputChange: Proptypes.func.isRequired,
   onSaveButtonClick: Proptypes.func.isRequired,
 };
