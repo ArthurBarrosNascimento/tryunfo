@@ -143,7 +143,7 @@ Form.propTypes = {
   cardRare: Proptypes.string.isRequired,
   cardTrunfo: Proptypes.bool.isRequired,
   // hasTrunfo: Proptypes.bool.isRequired,
-  isSaveButtonDisabled: Proptypes.func.isRequired,
+  isSaveButtonDisabled: Proptypes.bool.isRequired,
   onInputChange: Proptypes.func.isRequired,
   onSaveButtonClick: Proptypes.func.isRequired,
 };

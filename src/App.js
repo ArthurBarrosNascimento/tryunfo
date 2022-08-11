@@ -8,17 +8,19 @@ class App extends Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.isSaveButtonDisabled = this.isSaveButtonDisabled.bind(this);
-  }
+    this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+    this.clearStatesInputs = this.clearStatesInputs.bind(this);
 
-  state = {
-    name: '',
-    description: '',
-    attr1: '0',
-    attr2: '0',
-    attr3: '0',
-    image: '',
-    rare: '',
-    trunfo: false,
+    this.state = {
+      name: '',
+      description: '',
+      attr1: '0',
+      attr2: '0',
+      attr3: '0',
+      image: '',
+      rare: 'normal',
+      trunfo: false,
+    };
   }
 
   onInputChange({ target }) {
@@ -29,21 +31,89 @@ class App extends Component {
     });
   }
 
+  onSaveButtonClick() {
+    const {
+      name,
+      description,
+      image,
+      rare,
+      attr1,
+      attr2,
+      attr3,
+    } = this.state;
+
+    if (localStorage.getItem('card') === null) {
+      localStorage.setItem('card', JSON.stringify([{ name,
+        description,
+        image,
+        rare,
+        attr1,
+        attr2,
+        attr3 }]));
+    } else {
+      localStorage.setItem('card', JSON.stringify([
+        ...JSON.parse(localStorage.getItem('card')),
+        [{ name,
+          description,
+          image,
+          rare,
+          attr1,
+          attr2,
+          attr3 }],
+      ]));
+    }
+
+    this.clearStatesInputs();
+  }
+
+  clearStatesInputs() {
+    this.setState({
+      name: '',
+      description: '',
+      attr1: '0',
+      attr2: '0',
+      attr3: '0',
+      image: '',
+      rare: 'normal',
+    });
+  }
+
   isSaveButtonDisabled() {
     const {
       name,
       description,
       image,
       rare,
+      attr1,
+      attr2,
+      attr3,
     } = this.state;
 
     if (
       name.length === 0
         || description.length === 0 || image.length === 0 || rare.length === 0) {
-      return false;
+      return true;
     }
 
-    return true;
+    const maxAttrs = 90;
+    const minAttrs = 0;
+    const sumAttrs = 210;
+
+    if ((Number(attr1) + Number(attr2) + Number(attr3)) > sumAttrs) {
+      return true;
+    }
+
+    if (
+      Number(attr1) > maxAttrs || Number(attr2 > maxAttrs || Number(attr3) > maxAttrs)) {
+      return true;
+    }
+
+    if (
+      Number(attr1) < minAttrs || Number(attr2 < minAttrs || Number(attr3) < minAttrs)) {
+      return true;
+    }
+
+    return false;
   }
 
   render() {
@@ -71,7 +141,8 @@ class App extends Component {
             cardRare={ rare }
             cardTrunfo={ trunfo }
             onInputChange={ this.onInputChange }
-            isSaveButtonDisabled={ this.isSaveButtonDisabled }
+            isSaveButtonDisabled={ (this.isSaveButtonDisabled()) }
+            onSaveButtonClick={ this.onSaveButtonClick }
           />
         </div>
 
@@ -87,6 +158,9 @@ class App extends Component {
             cardTrunfo={ trunfo }
             onInputChange={ this.onInputChange }
           />
+        </div>
+        <div>
+          <h1>Card Salva</h1>
         </div>
       </main>
     );
