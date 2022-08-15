@@ -10,6 +10,7 @@ class App extends Component {
     this.isSaveButtonDisabled = this.isSaveButtonDisabled.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.clearStatesInputs = this.clearStatesInputs.bind(this);
+    this.hasTrunfo = this.hasTrunfo.bind(this);
 
     this.state = {
       name: '',
@@ -24,10 +25,9 @@ class App extends Component {
   }
 
   onInputChange({ target }) {
-    const { name, value } = target;
-
+    const { name, value, type, checked } = target;
     this.setState({
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   }
 
@@ -40,6 +40,7 @@ class App extends Component {
       attr1,
       attr2,
       attr3,
+      trunfo,
     } = this.state;
 
     if (localStorage.getItem('card') === null) {
@@ -49,17 +50,19 @@ class App extends Component {
         rare,
         attr1,
         attr2,
-        attr3 }]));
+        attr3,
+        trunfo }]));
     } else {
       localStorage.setItem('card', JSON.stringify([
         ...JSON.parse(localStorage.getItem('card')),
-        [{ name,
+        { name,
           description,
           image,
           rare,
           attr1,
           attr2,
-          attr3 }],
+          attr3,
+          trunfo },
       ]));
     }
 
@@ -75,7 +78,14 @@ class App extends Component {
       attr3: '0',
       image: '',
       rare: 'normal',
+      trunfo: false,
     });
+  }
+
+  hasTrunfo() {
+    const cards = JSON.parse(localStorage.getItem('card')) || [];
+
+    return cards.some(({ trunfo }) => trunfo);
   }
 
   isSaveButtonDisabled() {
@@ -143,6 +153,7 @@ class App extends Component {
             onInputChange={ this.onInputChange }
             isSaveButtonDisabled={ (this.isSaveButtonDisabled()) }
             onSaveButtonClick={ this.onSaveButtonClick }
+            hasTrunfo={ this.hasTrunfo() }
           />
         </div>
 
@@ -161,6 +172,7 @@ class App extends Component {
         </div>
         <div>
           <h1>Card Salva</h1>
+          {localStorage.getItem('card')}
         </div>
       </main>
     );
