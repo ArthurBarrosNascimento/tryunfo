@@ -21,6 +21,7 @@ class App extends Component {
       image: '',
       rare: 'normal',
       trunfo: false,
+      cards: [],
     };
   }
 
@@ -43,28 +44,17 @@ class App extends Component {
       trunfo,
     } = this.state;
 
-    if (localStorage.getItem('card') === null) {
-      localStorage.setItem('card', JSON.stringify([{ name,
-        description,
-        image,
-        rare,
-        attr1,
-        attr2,
-        attr3,
-        trunfo }]));
-    } else {
-      localStorage.setItem('card', JSON.stringify([
-        ...JSON.parse(localStorage.getItem('card')),
-        { name,
-          description,
-          image,
-          rare,
-          attr1,
-          attr2,
-          attr3,
-          trunfo },
-      ]));
-    }
+    this.setState((prevState) => ({
+      cards:
+          [...prevState.cards, { name,
+            description,
+            image,
+            rare,
+            attr1,
+            attr2,
+            attr3,
+            trunfo }],
+    }));
 
     this.clearStatesInputs();
   }
@@ -83,7 +73,7 @@ class App extends Component {
   }
 
   hasTrunfo() {
-    const cards = JSON.parse(localStorage.getItem('card')) || [];
+    const { cards } = this.state;
 
     return cards.some(({ trunfo }) => trunfo);
   }
@@ -126,6 +116,16 @@ class App extends Component {
     return false;
   }
 
+  deleteCardFromList(name) {
+    const { cards } = this.state;
+
+    const newCard = cards.filter((card) => card.name !== name);
+    console.log(newCard);
+    this.setState(() => ({
+      cards: [...newCard],
+    }));
+  }
+
   render() {
     const {
       name,
@@ -136,6 +136,7 @@ class App extends Component {
       image,
       rare,
       trunfo,
+      cards,
     } = this.state;
 
     return (
@@ -167,12 +168,34 @@ class App extends Component {
             cardImage={ image }
             cardRare={ rare }
             cardTrunfo={ trunfo }
-            onInputChange={ this.onInputChange }
           />
         </div>
         <div>
           <h1>Card Salva</h1>
-          {localStorage.getItem('card')}
+          { cards.map((card) => (
+            <section key={ card.name }>
+              <Card
+                cardName={ card.name }
+                cardDescription={ card.description }
+                cardAttr1={ card.attr1 }
+                cardAttr2={ card.attr2 }
+                cardAttr3={ card.attr3 }
+                cardImage={ card.image }
+                cardRare={ card.rare }
+                cardTrunfo={ card.trunfo }
+              />
+              <button
+                type="button"
+                data-testid="delete-button"
+                onClick={ () => (
+                  this.deleteCardFromList(card.name)
+                ) }
+              >
+                Excluir
+
+              </button>
+            </section>
+          ))}
         </div>
       </main>
     );

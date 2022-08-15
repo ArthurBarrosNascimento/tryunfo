@@ -16,8 +16,10 @@ class Card extends React.Component {
 
     return (
       <div id="card-box">
-        <h3 data-testid="name-card">
+        <h2>
           Card Name:
+        </h2>
+        <h3 data-testid="name-card">
           { cardName }
         </h3>
         <img src={ cardImage } alt={ cardName } data-testid="image-card" />

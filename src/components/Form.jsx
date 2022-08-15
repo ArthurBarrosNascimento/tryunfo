@@ -112,7 +112,7 @@ class Form extends React.Component {
           ? (
             <label htmlFor="checkbox-card">
               <input
-                id="checkbox-card"
+                id="trunfo-input"
                 name="trunfo"
                 type="checkbox"
                 data-testid="trunfo-input"
