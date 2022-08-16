@@ -100,9 +100,9 @@ class App extends Component {
   }
 
   hasTrunfo() {
-    const { cards } = this.state;
+    const { filterCards } = this.state;
 
-    return cards.some(({ trunfo }) => trunfo);
+    return filterCards.some(({ trunfo }) => trunfo);
   }
 
   isSaveButtonDisabled() {
@@ -144,12 +144,12 @@ class App extends Component {
   }
 
   deleteCardFromList(name) {
-    const { cards } = this.state;
+    const { filterCards } = this.state;
 
-    const newCard = cards.filter((card) => card.name !== name);
-    console.log(newCard);
+    const newCard = filterCards.filter((card) => card.name !== name);
+
     this.setState(() => ({
-      cards: [...newCard],
+      filterCards: [...newCard],
     }));
   }
 
