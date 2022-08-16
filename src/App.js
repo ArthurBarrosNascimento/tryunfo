@@ -6,13 +6,11 @@ import Filter from './components/Filter';
 class App extends Component {
   constructor() {
     super();
-
     this.onInputChange = this.onInputChange.bind(this);
     this.isSaveButtonDisabled = this.isSaveButtonDisabled.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.clearStatesInputs = this.clearStatesInputs.bind(this);
     this.hasTrunfo = this.hasTrunfo.bind(this);
-
     this.state = {
       name: '',
       description: '',
@@ -25,6 +23,8 @@ class App extends Component {
       cards: [],
       nameSearch: '',
       rareSearch: 'todas',
+      checkedSearch: false,
+      inputsSearchNameRare: false,
       filterCards: [],
     };
   }
@@ -32,20 +32,26 @@ class App extends Component {
   onInputChange({ target }) {
     const { name, value, type, checked } = target;
     let filterTemp = [];
-
     this.setState({
       [name]: type === 'checkbox' ? checked : value,
     }, () => {
-      const { nameSearch, rareSearch, cards } = this.state;
-
+      const { nameSearch, rareSearch, checkedSearch, cards } = this.state;
       filterTemp = cards.filter((cardName) => {
         const card = cardName.name.toLowerCase();
-
         return card.includes(nameSearch.toLowerCase());
       });
-
       if (rareSearch !== 'todas') {
         filterTemp = filterTemp.filter(({ rare }) => rare === rareSearch);
+      }
+      if (checkedSearch === true) {
+        filterTemp = filterTemp.filter(({ trunfo }) => trunfo === checkedSearch);
+        this.setState({
+          inputsSearchNameRare: true,
+        });
+      } else {
+        this.setState({
+          inputsSearchNameRare: false,
+        });
       }
       this.setState({
         filterCards: filterTemp,
@@ -64,7 +70,6 @@ class App extends Component {
       attr3,
       trunfo,
     } = this.state;
-
     this.setState((prevState) => ({
       cards:
           [...prevState.cards, { name,
@@ -145,11 +150,10 @@ class App extends Component {
 
   deleteCardFromList(name) {
     const { filterCards } = this.state;
-
     const newCard = filterCards.filter((card) => card.name !== name);
-
     this.setState(() => ({
       filterCards: [...newCard],
+      checkedSearch: false,
     }));
   }
 
@@ -167,6 +171,8 @@ class App extends Component {
       nameSearch,
       filterCards,
       rareSearch,
+      checkedSearch,
+      inputsSearchNameRare,
     } = this.state;
 
     return (
@@ -206,6 +212,8 @@ class App extends Component {
             onInputChange={ this.onInputChange }
             cards={ cards }
             cardRare={ rareSearch }
+            cardTrunfo={ checkedSearch }
+            able={ inputsSearchNameRare }
           />
         </div>
         <div>
@@ -230,7 +238,6 @@ class App extends Component {
                 ) }
               >
                 Excluir
-
               </button>
             </section>
           ))}
