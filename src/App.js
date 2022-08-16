@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import Filter from './components/Filter';
 
 class App extends Component {
   constructor() {
@@ -22,6 +23,8 @@ class App extends Component {
       rare: 'normal',
       trunfo: false,
       cards: [],
+      nameSearch: '',
+      filterByName: [],
     };
   }
 
@@ -29,6 +32,20 @@ class App extends Component {
     const { name, value, type, checked } = target;
     this.setState({
       [name]: type === 'checkbox' ? checked : value,
+    }, () => {
+      if (name === 'nameSearch') {
+        const { nameSearch, cards } = this.state;
+
+        const filterForNameCard = cards.filter((cardName) => {
+          const card = cardName.name.toLowerCase();
+
+          return card.includes(nameSearch.toLowerCase());
+        });
+
+        this.setState({
+          filterByName: filterForNameCard,
+        });
+      }
     });
   }
 
@@ -54,7 +71,13 @@ class App extends Component {
             attr2,
             attr3,
             trunfo }],
-    }));
+    }), () => {
+      const { cards } = this.state;
+
+      this.setState({
+        filterByName: cards,
+      });
+    });
 
     this.clearStatesInputs();
   }
@@ -137,6 +160,8 @@ class App extends Component {
       rare,
       trunfo,
       cards,
+      nameSearch,
+      filterByName,
     } = this.state;
 
     return (
@@ -171,8 +196,15 @@ class App extends Component {
           />
         </div>
         <div>
+          <Filter
+            searchName={ nameSearch }
+            onInputChange={ this.onInputChange }
+            cards={ cards }
+          />
+        </div>
+        <div>
           <h1>Card Salva</h1>
-          { cards.map((card) => (
+          { filterByName.map((card) => (
             <section key={ card.name }>
               <Card
                 cardName={ card.name }
