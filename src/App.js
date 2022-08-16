@@ -24,28 +24,32 @@ class App extends Component {
       trunfo: false,
       cards: [],
       nameSearch: '',
-      filterByName: [],
+      rareSearch: 'todas',
+      filterCards: [],
     };
   }
 
   onInputChange({ target }) {
     const { name, value, type, checked } = target;
+    let filterTemp = [];
+
     this.setState({
       [name]: type === 'checkbox' ? checked : value,
     }, () => {
-      if (name === 'nameSearch') {
-        const { nameSearch, cards } = this.state;
+      const { nameSearch, rareSearch, cards } = this.state;
 
-        const filterForNameCard = cards.filter((cardName) => {
-          const card = cardName.name.toLowerCase();
+      filterTemp = cards.filter((cardName) => {
+        const card = cardName.name.toLowerCase();
 
-          return card.includes(nameSearch.toLowerCase());
-        });
+        return card.includes(nameSearch.toLowerCase());
+      });
 
-        this.setState({
-          filterByName: filterForNameCard,
-        });
+      if (rareSearch !== 'todas') {
+        filterTemp = filterTemp.filter(({ rare }) => rare === rareSearch);
       }
+      this.setState({
+        filterCards: filterTemp,
+      });
     });
   }
 
@@ -75,7 +79,7 @@ class App extends Component {
       const { cards } = this.state;
 
       this.setState({
-        filterByName: cards,
+        filterCards: cards,
       });
     });
 
@@ -161,7 +165,8 @@ class App extends Component {
       trunfo,
       cards,
       nameSearch,
-      filterByName,
+      filterCards,
+      rareSearch,
     } = this.state;
 
     return (
@@ -200,11 +205,12 @@ class App extends Component {
             searchName={ nameSearch }
             onInputChange={ this.onInputChange }
             cards={ cards }
+            cardRare={ rareSearch }
           />
         </div>
         <div>
           <h1>Card Salva</h1>
-          { filterByName.map((card) => (
+          { filterCards.map((card) => (
             <section key={ card.name }>
               <Card
                 cardName={ card.name }
